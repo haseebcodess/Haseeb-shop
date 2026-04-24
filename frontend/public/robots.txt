@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /products
+Disallow: /admin
+Disallow: /cart
+Disallow: /auth
+
+Sitemap: https://haseebshop.com/sitemap.xml
