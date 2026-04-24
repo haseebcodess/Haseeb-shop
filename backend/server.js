@@ -13,7 +13,14 @@ if (!fs.existsSync('uploads')) fs.mkdirSync('uploads');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
+app.use(cors({
+  origin: [
+    process.env.CLIENT_URL,
+    'https://haseeb-shop-98emrmsnm-haseebcodess-projects.vercel.app',
+    'http://localhost:3000'
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
