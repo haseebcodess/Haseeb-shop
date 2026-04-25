@@ -15,7 +15,7 @@ exports.getAllProducts = async (req, res) => {
     }
     const products = await Product.find(query)
       .populate('createdBy', 'name')
-      .sort({ [sortBy]: -1 })
+      .sort(sortBy === '-price' ? { price: -1 } : sortBy === 'price' ? { price: 1 } : sortBy === 'rating' ? { rating: -1 } : { createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit))
       .lean();

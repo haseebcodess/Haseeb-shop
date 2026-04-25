@@ -9,8 +9,8 @@ const StatCard = ({ icon, label, value, grad, sub }) => (
     <div style={{ display:'flex', alignItems:'center', gap:14 }}>
       <div style={{ width:48, height:48, borderRadius:14, background:grad, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, boxShadow:'0 4px 14px rgba(14,165,233,0.2)', flexShrink:0 }}>{icon}</div>
       <div>
-        <p style={{ fontSize:11, color:'var(--text4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:4 }}>{label}</p>
-        <p style={{ fontSize:28, fontWeight:800, color:'var(--text)', lineHeight:1 }}>{value}</p>
+        <p style={{ fontSize:12, color:'var(--text4)', fontWeight:600, marginBottom:4 }}>{label}</p>
+        <p style={{ fontSize:28, fontWeight:800, color:'var(--text)', lineHeight:1, fontFamily:'var(--font-display)' }}>{value}</p>
         {sub && <p style={{ fontSize:11, color:'var(--text3)', marginTop:3 }}>{sub}</p>}
       </div>
     </div>
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
 
         <div style={{ marginBottom:36, display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
           <div>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:800, color:'var(--text)', marginBottom:6, letterSpacing:'-0.02em' }}>Admin Dashboard</h1>
+            <h1 style={{ fontSize:34, fontWeight:800, color:'var(--text)', marginBottom:6, letterSpacing:'-0.02em' }}>Admin Dashboard</h1>
             <p style={{ color:'var(--text3)', fontSize:15 }}>Welcome back, <span style={{ background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', fontWeight:700 }}>{user?.name}</span> 👋</p>
           </div>
           <Link to="/admin/add-product">
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
         </div>
 
         <div style={{ marginBottom:36 }}>
-          <h2 style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'var(--text)', marginBottom:16 }}>Quick Actions</h2>
+          <h2 style={{ fontSize:20, fontWeight:700, color:'var(--text)', marginBottom:16 }}>Quick Actions</h2>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:14 }}>
             {[
               { icon:'+', title:'Add New Product', desc:'Create a new product listing', to:'/admin/add-product', grad:'linear-gradient(135deg,#0ea5e9,#6366f1)' },
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
 
         <div>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
-            <h2 style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'var(--text)' }}>Recent Products</h2>
+            <h2 style={{ fontSize:20, fontWeight:700, color:'var(--text)' }}>Recent Products</h2>
             <Link to="/products" style={{ textDecoration:'none', fontSize:13, color:'var(--p1)', fontWeight:600 }}>View all →</Link>
           </div>
           <div style={{ background:'rgba(255,255,255,0.7)', borderRadius:'var(--radius-lg)', border:'1px solid rgba(255,255,255,0.9)', overflow:'hidden', backdropFilter:'blur(20px)', boxShadow:'var(--shadow-sm)' }}>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                 <thead>
                   <tr style={{ borderBottom:'1px solid rgba(14,165,233,0.1)', background:'rgba(14,165,233,0.03)' }}>
                     {['Product','Shop','Price','Rating','Stock','Delivery'].map(h => (
-                      <th key={h} style={{ padding:'14px 16px', textAlign:'left', fontSize:10, fontWeight:700, color:'var(--text4)', textTransform:'uppercase', letterSpacing:'0.07em' }}>{h}</th>
+                      <th key={h} style={{ padding:'14px 16px', textAlign:'left', fontSize:12, fontWeight:600, color:'var(--text4)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>

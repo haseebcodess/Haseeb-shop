@@ -25,7 +25,7 @@ const AddProductPage = () => {
           <div style={{ display:'flex', alignItems:'center', gap:16 }}>
             <div style={{ width:54, height:54, borderRadius:16, background:'linear-gradient(135deg,#0ea5e9,#6366f1)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:26, boxShadow:'0 8px 24px rgba(14,165,233,0.3)' }}>📦</div>
             <div>
-              <h1 style={{ fontFamily:'var(--font-display)', fontSize:28, fontWeight:800, color:'var(--text)', lineHeight:1.1 }}>Add New Product</h1>
+              <h1 style={{ fontSize:28, fontWeight:800, fontFamily:'var(--font-display)', color:'var(--text)', lineHeight:1.1 }}>Add New Product</h1>
               <p style={{ color:'var(--text3)', fontSize:14, marginTop:4 }}>Fill in the details to list a new product</p>
             </div>
           </div>

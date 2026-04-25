@@ -41,7 +41,7 @@ const CartPage = () => {
   if (cart.length === 0) return (
     <div style={{ minHeight:'80vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:20 }}>
       <div style={{ fontSize:80 }}>🛒</div>
-      <h2 style={{ fontFamily:'var(--font-display)', fontSize:28, fontWeight:800, color:'var(--text)' }}>Your cart is empty</h2>
+      <h2 style={{ fontSize:28, fontWeight:800, color:'var(--text)' }}>Your cart is empty</h2>
       <p style={{ color:'var(--text3)', fontSize:15 }}>Start adding products to your cart</p>
       <Link to="/products"><button className="btn-primary">Browse Products</button></Link>
     </div>
@@ -60,7 +60,7 @@ const CartPage = () => {
       <div style={{ maxWidth:1100, margin:'0 auto' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:32, flexWrap:'wrap', gap:12 }}>
           <div>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:800, color:'var(--text)', letterSpacing:'-0.02em' }}>Your Cart</h1>
+            <h1 style={{ fontSize:34, fontWeight:800, color:'var(--text)', letterSpacing:'-0.02em' }}>Your Cart</h1>
             <p style={{ color:'var(--text3)', marginTop:4 }}>{cart.reduce((s,i) => s+i.quantity, 0)} items</p>
           </div>
           <button onClick={handleClear} disabled={clearing} className="btn-ghost" style={{ fontSize:13 }}>
@@ -112,7 +112,7 @@ const CartPage = () => {
           </div>
 
           <div className="glass" style={{ borderRadius:'var(--radius-xl)', padding:24, position:'sticky', top:80 }}>
-            <h3 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:800, color:'var(--text)', marginBottom:20 }}>Order Summary</h3>
+            <h3 style={{ fontSize:18, fontWeight:800, color:'var(--text)', marginBottom:20 }}>Order Summary</h3>
 
             {Object.entries(groupedByCurrency).map(([code, data]) => (
               <div key={code} style={{ display:'flex', justifyContent:'space-between', color:'var(--text3)', fontSize:13, marginBottom:10 }}>

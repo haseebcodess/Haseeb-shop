@@ -7,6 +7,7 @@ const CURRENCIES = [
   { value:'CNY', label:'CNY - Chinese Yuan' },
   { value:'EUR', label:'EUR - Euro' },
   { value:'GBP', label:'GBP - British Pound' },
+  { value:'PKR', label:'PKR - Pakistani Rupee' },
 ];
 
 // OUTSIDE component to prevent focus loss bug

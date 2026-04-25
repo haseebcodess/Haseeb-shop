@@ -33,11 +33,11 @@ const ProductsPage = () => {
   const fetchProducts = useCallback(async (pg = 1, q = search, sort = sortBy) => {
     setLoading(true);
     try {
-      const params = { page: pg, limit: 12, sortBy: sort === '-price' ? 'price' : sort };
+      const params = { page: pg, limit: 50, sortBy: sort };
       if (q.trim()) params.search = q;
       const res = await productAPI.getAll(params);
       let prods = res.data.products;
-      if (sort === '-price') prods = [...prods].sort((a,b) => b.price - a.price);
+
       setProducts(prods); setTotalPages(res.data.totalPages); setTotal(res.data.total);
     } catch { toast.error('Failed to load products'); }
     finally { setLoading(false); }

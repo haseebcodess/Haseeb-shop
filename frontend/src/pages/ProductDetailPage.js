@@ -90,7 +90,7 @@ const ProductDetailPage = () => {
   const imageUrl = getImageUrl(product.image);
   const images = imageUrl ? [imageUrl] : [];
 
-  const CURRENCY_FLAGS = { USD:'🇺🇸', JPY:'🇯🇵', CNY:'🇨🇳', EUR:'🇪🇺', GBP:'🇬🇧' };
+  const CURRENCY_FLAGS = { USD:'🇺🇸', JPY:'🇯🇵', CNY:'🇨🇳', EUR:'🇪🇺', GBP:'🇬🇧', PKR:'🇵🇰' };
 
   return (
     <div style={{ minHeight:'100vh', padding:'32px 24px' }}>
@@ -169,7 +169,7 @@ const ProductDetailPage = () => {
 
             {/* Shop + currency */}
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-              <span style={{ fontSize:12, fontWeight:700, color:'var(--p1)', textTransform:'uppercase', letterSpacing:'0.07em' }}>{product.shopName}</span>
+              <span style={{ fontSize:13, fontWeight:700, color:'var(--p1)' }}>{product.shopName}</span>
               <span style={{ fontSize:13, color:'var(--text4)', background:'rgba(14,165,233,0.08)', padding:'4px 10px', borderRadius:20, fontWeight:600 }}>
                 {CURRENCY_FLAGS[product.currencyCode]} {product.currencyCode}
               </span>
@@ -177,7 +177,7 @@ const ProductDetailPage = () => {
 
             {/* Product name */}
             <div>
-              <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:800, color:'var(--text)', lineHeight:1.2, marginBottom:6, letterSpacing:'-0.02em' }}>{product.productName}</h1>
+              <h1 style={{ fontSize:30, fontWeight:800, color:'var(--text)', lineHeight:1.2, marginBottom:6, letterSpacing:'-0.02em' }}>{product.productName}</h1>
               <p style={{ fontSize:13, color:'var(--text4)' }}>SKU: {product.name}</p>
             </div>
 
@@ -190,7 +190,7 @@ const ProductDetailPage = () => {
             {/* Price */}
             <div style={{ padding:'18px 22px', borderRadius:'var(--radius-lg)', background:'linear-gradient(135deg,rgba(14,165,233,0.06),rgba(99,102,241,0.06))', border:'1px solid rgba(14,165,233,0.12)' }}>
               <p style={{ fontSize:12, color:'var(--text4)', marginBottom:4, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.06em' }}>Price</p>
-              <span style={{ fontSize:38, fontWeight:900, background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', lineHeight:1 }}>
+              <span style={{ fontSize:38, fontWeight:900, fontFamily:'var(--font-display)', background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', lineHeight:1 }}>
                 {formatPrice(product.price, product.currencyCode)}
               </span>
               {product.freeDelivery && (
@@ -241,7 +241,7 @@ const ProductDetailPage = () => {
                 { label:'Delivery', value: product.freeDelivery ? '🚚 Free' : 'Standard' },
               ].map(d => (
                 <div key={d.label} style={{ padding:'10px 14px', background:'rgba(255,255,255,0.6)', borderRadius:10, border:'1px solid rgba(14,165,233,0.08)', backdropFilter:'blur(10px)' }}>
-                  <p style={{ fontSize:10, color:'var(--text4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:3 }}>{d.label}</p>
+                  <p style={{ fontSize:11, color:'var(--text4)', fontWeight:600, marginBottom:3 }}>{d.label}</p>
                   <p style={{ fontSize:13, fontWeight:600, color:'var(--text)' }}>{d.value}</p>
                 </div>
               ))}
@@ -253,7 +253,7 @@ const ProductDetailPage = () => {
         {related.length > 0 && (
           <div>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:24 }}>
-              <h2 style={{ fontFamily:'var(--font-display)', fontSize:26, fontWeight:800, color:'var(--text)', letterSpacing:'-0.02em' }}>You may also like</h2>
+              <h2 style={{ fontSize:26, fontWeight:800, color:'var(--text)', letterSpacing:'-0.02em' }}>You may also like</h2>
               <Link to="/products" style={{ textDecoration:'none', fontSize:13, color:'var(--p1)', fontWeight:600 }}>See all →</Link>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(240px,1fr))', gap:18 }}>
@@ -272,7 +272,7 @@ const ProductDetailPage = () => {
                         )}
                       </div>
                       <div style={{ padding:'14px 16px' }}>
-                        <p style={{ fontSize:10, color:'var(--text4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:4 }}>{p.shopName}</p>
+                        <p style={{ fontSize:11, color:'var(--text4)', fontWeight:600, marginBottom:4 }}>{p.shopName}</p>
                         <h3 style={{ fontSize:14, fontWeight:700, color:'var(--text)', marginBottom:8, lineHeight:1.3 }}>{p.productName}</h3>
                         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                           <span style={{ fontSize:18, fontWeight:800, background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
