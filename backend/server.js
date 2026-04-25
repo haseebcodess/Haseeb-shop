@@ -16,7 +16,7 @@ const app = express();
 app.use(cors({
   origin: [
     process.env.CLIENT_URL,
-    'https://haseeb-shop-98emrmsnm-haseebcodess-projects.vercel.app',
+    'https://haseeb-shop.vercel.app',
     'http://localhost:3000'
   ],
   credentials: true
