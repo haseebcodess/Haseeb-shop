@@ -1,7 +1,5 @@
 const { validationResult } = require('express-validator');
 const Product = require('../models/Product');
-const fs = require('fs');
-const path = require('path');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -62,8 +60,8 @@ exports.createProduct = async (req, res) => {
       stock: Number(req.body.stock) || 100
     };
     if (req.file) {
-      productData.image = `/uploads/${req.file.filename}`;
-    }
+  productData.image = req.file.path;
+}
     const product = await Product.create(productData);
     res.status(201).json({ success: true, message: 'Product created successfully', product });
   } catch (error) {
@@ -84,12 +82,8 @@ exports.updateProduct = async (req, res) => {
       updateData.freeDelivery = req.body.freeDelivery === 'true' || req.body.freeDelivery === true;
     }
     if (req.file) {
-      if (product.image) {
-        const oldPath = path.join(__dirname, '..', product.image);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      updateData.image = `/uploads/${req.file.filename}`;
-    }
+  updateData.image = req.file.path;
+}
     product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
     res.status(200).json({ success: true, message: 'Product updated successfully', product });
   } catch (error) {
