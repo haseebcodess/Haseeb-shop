@@ -1,91 +1,184 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import useSEO from '../hooks/useSEO';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  useSEO({ title:'Welcome', description:'Haseeb Shop — a full-stack product management platform with Admin and Customer panels, multi-currency support, and real-time inventory.', keywords:'haseeb shop, product management, ecommerce, online store, shopping cart, admin panel, inventory management' });
+  useSEO({ title:'Home', description:'Haseeb Shop — premium product management platform with Admin and Customer panels.', keywords:'haseeb shop, product management, ecommerce, online store' });
+  const heroRef = useRef();
+
+  useEffect(() => {
+    const el = heroRef.current; if (!el) return;
+    const onMove = (e) => {
+      const { left, top, width, height } = el.getBoundingClientRect();
+      const x = (e.clientX - left) / width - 0.5;
+      const y = (e.clientY - top) / height - 0.5;
+      const o1 = el.querySelector('.orb-1'); const o2 = el.querySelector('.orb-2');
+      if (o1) o1.style.transform = `translate(${x*30}px,${y*30}px)`;
+      if (o2) o2.style.transform = `translate(${x*-20}px,${y*-20}px)`;
+    };
+    el.addEventListener('mousemove', onMove);
+    return () => el.removeEventListener('mousemove', onMove);
+  }, []);
+
+  const features = [
+    {icon:'🔐',title:'Secure Auth',desc:'JWT tokens, bcrypt hashing, role-based access control'},
+    {icon:'📦',title:'Full CRUD',desc:'Add, edit, delete products with cloud image upload'},
+    {icon:'🌍',title:'Multi-Currency',desc:'USD, PKR, JPY, CNY, EUR, GBP with correct formatting'},
+    {icon:'🚚',title:'Free Delivery',desc:'Flag products with free shipping across all views'},
+    {icon:'🔍',title:'Search & Sort',desc:'MongoDB text search, price sorting, pagination'},
+    {icon:'📱',title:'Responsive',desc:'Clean experience on mobile, tablet, and desktop'},
+  ];
+
   return (
-    <div style={{ minHeight:'100vh' }}>
-      <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', padding:'60px 28px', position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', inset:0, pointerEvents:'none' }}>
-          <div style={{ position:'absolute', width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle,rgba(14,165,233,0.12),transparent)', top:'-150px', right:'-100px' }} />
-          <div style={{ position:'absolute', width:500, height:500, borderRadius:'50%', background:'radial-gradient(circle,rgba(99,102,241,0.1),transparent)', bottom:'-100px', left:'-50px' }} />
-          <div style={{ position:'absolute', width:300, height:300, borderRadius:'50%', background:'radial-gradient(circle,rgba(20,184,166,0.08),transparent)', top:'40%', left:'40%' }} />
-        </div>
-        <div style={{ maxWidth:1200, margin:'0 auto', width:'100%', display:'grid', gridTemplateColumns:'1fr 1fr', gap:80, alignItems:'center', position:'relative', zIndex:1 }}>
-          <div>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'6px 16px', borderRadius:20, background:'rgba(14,165,233,0.1)', border:'1px solid rgba(14,165,233,0.2)', marginBottom:28 }}>
-              <span style={{ width:6, height:6, borderRadius:'50%', background:'#0ea5e9', display:'inline-block', animation:'pulse 2s infinite' }}></span>
-              <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}`}</style>
-              <span style={{ fontSize:12, color:'#0284c7', fontWeight:700, letterSpacing:'0.04em' }}>Full-Stack · MVC · Portfolio-Ready</span>
+    <div style={{background:'#f5f5fa'}}>
+
+      {/* Hero */}
+      <div ref={heroRef} style={{background:'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)',minHeight:'560px',display:'flex',alignItems:'center',padding:'60px 32px',position:'relative',overflow:'hidden'}}>
+        <div className="orb-1" style={{position:'absolute',width:400,height:400,borderRadius:'50%',background:'radial-gradient(circle,rgba(37,99,255,0.3),transparent)',top:'-80px',right:'10%',transition:'transform 0.1s ease'}} />
+        <div className="orb-2" style={{position:'absolute',width:280,height:280,borderRadius:'50%',background:'radial-gradient(circle,rgba(124,58,237,0.25),transparent)',bottom:'-40px',right:'25%',transition:'transform 0.1s ease'}} />
+        <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)',backgroundSize:'32px 32px',pointerEvents:'none'}} />
+        <div style={{maxWidth:1200,margin:'0 auto',width:'100%',display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center',position:'relative',zIndex:1}}>
+          <div className="fade-in">
+            <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'5px 14px',borderRadius:20,background:'rgba(37,99,255,0.2)',border:'1px solid rgba(37,99,255,0.4)',marginBottom:24}}>
+              <span style={{width:6,height:6,borderRadius:'50%',background:'#60a5fa',display:'inline-block'}}></span>
+              <span style={{fontSize:12,color:'#93c5fd',fontWeight:600,letterSpacing:'0.06em'}}>LIVE ON VERCEL · FULL STACK</span>
             </div>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(42px,5vw,70px)', fontWeight:800, color:'var(--text)', lineHeight:1.05, marginBottom:22, letterSpacing:'-0.03em' }}>
-              Haseeb<br />
-              <span style={{ background:'linear-gradient(135deg,#0ea5e9 0%,#6366f1 50%,#14b8a6 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>Shop</span><br />
-              <span style={{ fontSize:'0.55em', fontWeight:600, color:'var(--text3)', letterSpacing:'-0.01em' }}>Product Management Platform</span>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:'clamp(40px,5vw,64px)',fontWeight:400,color:'#fff',lineHeight:1.1,marginBottom:20,letterSpacing:'-0.01em'}}>
+              Elevate Your<br />
+              <span style={{fontStyle:'italic',background:'linear-gradient(135deg,#60a5fa,#a78bfa)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Product Journey</span>
             </h1>
-            <p style={{ fontSize:16, color:'var(--text3)', lineHeight:1.75, marginBottom:36, maxWidth:460 }}>
-              A clean, fast product platform with separate Admin and Customer panels. Full CRUD, JWT auth, image uploads, and multi-currency support.
-            </p>
-            <div style={{ display:'flex', gap:14, marginBottom:36 }}>
-              <Link to="/auth"><button className="btn-primary" style={{ padding:'14px 32px', fontSize:15 }}>Open the Shop →</button></Link>
-              <a href="https://github.com" target="_blank" rel="noreferrer"><button className="btn-ghost" style={{ padding:'14px 32px', fontSize:15 }}>GitHub</button></a>
-            </div>
-            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-              {['React 18','Node.js','MongoDB','Express','JWT','Multer','MVC'].map(t => (
-                <span key={t} style={{ padding:'5px 14px', borderRadius:20, background:'rgba(255,255,255,0.7)', border:'1px solid rgba(14,165,233,0.15)', fontSize:12, color:'var(--text3)', fontWeight:600, backdropFilter:'blur(10px)' }}>{t}</span>
-              ))}
+            <p style={{fontSize:16,color:'rgba(255,255,255,0.6)',lineHeight:1.75,marginBottom:36,maxWidth:440}}>A production-grade platform for managing and discovering products. Separate panels for admins and customers, with real-time updates and cloud image storage.</p>
+            <div style={{display:'flex',gap:14}}>
+              <Link to="/auth"><button style={{background:'#2563ff',color:'#fff',border:'none',padding:'13px 30px',borderRadius:8,fontSize:15,fontWeight:600,cursor:'pointer',boxShadow:'0 4px 20px rgba(37,99,255,0.5)',transition:'all 0.2s'}}>Shop Now</button></Link>
+              <Link to="/developer"><button style={{background:'rgba(255,255,255,0.08)',color:'#fff',border:'1px solid rgba(255,255,255,0.2)',padding:'13px 30px',borderRadius:8,fontSize:15,fontWeight:500,cursor:'pointer',backdropFilter:'blur(10px)',transition:'all 0.2s'}}>Learn More</button></Link>
             </div>
           </div>
-          <div>
-            <div style={{ background:'rgba(255,255,255,0.6)', backdropFilter:'blur(20px)', border:'1px solid rgba(255,255,255,0.9)', borderRadius:24, padding:28, display:'flex', flexDirection:'column', gap:16, boxShadow:'0 20px 60px rgba(14,165,233,0.12)' }}>
-              {[
-                { icon:'⚙️', title:'Admin Panel', desc:'Add, edit, delete products', bg:'rgba(14,165,233,0.08)', border:'rgba(14,165,233,0.2)', col:'#0284c7', grad:'linear-gradient(135deg,#0ea5e9,#6366f1)' },
-                { icon:'🛍', title:'Customer Panel', desc:'Browse products, add to cart', bg:'rgba(20,184,166,0.08)', border:'rgba(20,184,166,0.2)', col:'#0f766e', grad:'linear-gradient(135deg,#14b8a6,#0ea5e9)' },
-              ].map(r => (
-                <div key={r.title} style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px', borderRadius:14, background:r.bg, border:`1px solid ${r.border}` }}>
-                  <div style={{ width:42, height:42, borderRadius:12, background:r.grad, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }} dangerouslySetInnerHTML={{ __html: r.icon }} />
-                  <div>
-                    <div style={{ fontSize:14, fontWeight:700, color:'var(--text)' }}>{r.title}</div>
-                    <div style={{ fontSize:12, color:r.col }}>{r.desc}</div>
-                  </div>
+          {/* 3D card */}
+          <div className="slide-up" style={{perspective:1000}}>
+            <div style={{background:'rgba(255,255,255,0.05)',backdropFilter:'blur(20px)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:20,padding:24,transform:'rotateY(-8deg) rotateX(4deg)',boxShadow:'0 32px 64px rgba(0,0,0,0.4)',transition:'transform 0.3s ease'}}
+              onMouseEnter={e=>{e.currentTarget.style.transform='rotateY(-4deg) rotateX(2deg)'}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='rotateY(-8deg) rotateX(4deg)'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:20}}>
+                <div style={{width:36,height:36,borderRadius:9,background:'#2563ff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:800,color:'#fff'}}>H</div>
+                <div>
+                  <div style={{fontSize:14,fontWeight:700,color:'#fff'}}>Haseeb Shop</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>Admin Dashboard</div>
                 </div>
-              ))}
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10, marginTop:4 }}>
-                {[{ n:'CRUD', l:'Operations' },{ n:'JWT', l:'Auth' },{ n:'MVC', l:'Pattern' }].map(s => (
-                  <div key={s.n} style={{ textAlign:'center', padding:'14px 8px', background:'rgba(255,255,255,0.7)', borderRadius:12, border:'1px solid rgba(14,165,233,0.12)', backdropFilter:'blur(10px)' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:800, background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{s.n}</div>
-                    <div style={{ fontSize:10, color:'var(--text4)', marginTop:2, fontWeight:600 }}>{s.l}</div>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>
+                {[{l:'Products',v:'1,240',c:'#60a5fa'},{l:'Revenue',v:'$48.2K',c:'#34d399'},{l:'Orders',v:'384',c:'#a78bfa'},{l:'Customers',v:'1,028',c:'#fb923c'}].map(s=>(
+                  <div key={s.l} style={{background:'rgba(255,255,255,0.07)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(255,255,255,0.08)'}}>
+                    <div style={{fontSize:10,color:'rgba(255,255,255,0.4)',marginBottom:4,textTransform:'uppercase',letterSpacing:'0.06em'}}>{s.l}</div>
+                    <div style={{fontSize:22,fontWeight:800,color:s.c}}>{s.v}</div>
                   </div>
                 ))}
+              </div>
+              <div style={{background:'rgba(37,99,255,0.2)',borderRadius:10,padding:'12px 14px',border:'1px solid rgba(37,99,255,0.25)',display:'flex',alignItems:'center',gap:10}}>
+                <span style={{fontSize:20}}>📦</span>
+                <div>
+                  <div style={{fontSize:13,fontWeight:600,color:'#fff'}}>New Product Added</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.4)'}}>Sony WH-1000XM5 · $349.99</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ padding:'80px 28px', background:'rgba(255,255,255,0.4)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(14,165,233,0.08)' }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
-          <div style={{ textAlign:'center', marginBottom:56 }}>
-            <h2 style={{ fontFamily:'var(--font-display)', fontSize:38, fontWeight:800, color:'var(--text)', marginBottom:12, letterSpacing:'-0.02em' }}>Built for real use</h2>
-            <p style={{ color:'var(--text3)', fontSize:16 }}>Every feature you need in a modern product management system</p>
+      {/* Featured Products */}
+      <div style={{background:'#fff',padding:'56px 32px',borderBottom:'1px solid var(--border)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto'}}>
+          <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginBottom:32}}>
+            <div>
+              <div className="section-tag">Featured Products</div>
+              <h2 style={{fontSize:26,fontWeight:700,color:'var(--text)',letterSpacing:'-0.02em'}}>Handpicked for you</h2>
+            </div>
+            <Link to="/auth"><button className="btn-outline" style={{fontSize:13}}>See All Products</button></Link>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px,1fr))', gap:20 }}>
-            {[
-              { icon:'🔐', title:'Role-Based Auth', desc:'Admin and Customer panels with JWT auth, protected API routes, bcrypt password hashing.' },
-              { icon:'📦', title:'Full CRUD', desc:'Create with image upload, search & filter, inline edit with preview, delete with file cleanup.' },
-              { icon:'🌐', title:'Multi-Currency', desc:'USD, JPY, CNY, EUR, GBP — each formatted correctly per locale.' },
-              { icon:'📐', title:'MVC Architecture', desc:'Models, controllers, routes cleanly separated. Team-scalable codebase.' },
-              { icon:'🔍', title:'Search & Filter', desc:'MongoDB text indexes, price sorting, debounced search — fast across large catalogs.' },
-              { icon:'📱', title:'Fully Responsive', desc:'Works on mobile, tablet, and desktop with adaptive layouts and touch controls.' },
-            ].map(f => (
-              <div key={f.title} className="card" style={{ padding:26 }}>
-                <div style={{ fontSize:30, marginBottom:14 }} dangerouslySetInnerHTML={{ __html: f.icon }} />
-                <h3 style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color:'var(--text)', marginBottom:8 }}>{f.title}</h3>
-                <p style={{ color:'var(--text3)', fontSize:13, lineHeight:1.7 }}>{f.desc}</p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
+            {[{name:'Pro Wireless Headphones',cat:'Headphones',price:'$ 250.00 USD',img:'🎧',tag:'Best Seller'},
+              {name:'Earbud Y168A',cat:'Earbuds',price:'$ 270.00 USD',img:'🎵',tag:'New'},
+              {name:'Speaker P168A',cat:'Speakers',price:'$ 240.00 USD',img:'🔊',tag:'Free Ship'}].map((p,i)=>(
+              <div key={i} className="card" style={{overflow:'hidden'}}>
+                <div style={{height:180,background:'linear-gradient(135deg,#f0f4ff,#e8efff)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:64,position:'relative'}}>
+                  {p.img}
+                  <div style={{position:'absolute',top:12,left:12}}><span className="badge badge-blue">{p.tag}</span></div>
+                </div>
+                <div style={{padding:'16px 18px'}}>
+                  <div style={{fontSize:11,color:'var(--text4)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:4}}>{p.cat}</div>
+                  <div style={{fontSize:15,fontWeight:700,color:'var(--text)',marginBottom:6}}>{p.name}</div>
+                  <div style={{fontSize:17,fontWeight:800,color:'var(--blue)'}}>{p.price}</div>
+                </div>
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Shop By Category */}
+      <div style={{padding:'56px 32px',background:'#f5f5fa'}}>
+        <div style={{maxWidth:1200,margin:'0 auto'}}>
+          <div style={{marginBottom:32}}>
+            <div className="section-tag">Categories</div>
+            <h2 style={{fontSize:26,fontWeight:700,color:'var(--text)',letterSpacing:'-0.02em'}}>Shop By Category</h2>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
+            {[{name:'Speaker',icon:'🔊',desc:'Explore our curated collection of top speaker products.'},{name:'Accessories',icon:'🎧',desc:'Explore our curated collection of top accessories products.'},{name:'Wireless Charger',icon:'⚡',desc:'Explore our curated collection of top wireless charger products.'}].map((c,i)=>(
+              <div key={i} className="card" style={{padding:24,cursor:'pointer'}}>
+                <div style={{fontSize:32,marginBottom:12}}>{c.icon}</div>
+                <div style={{fontSize:16,fontWeight:700,color:'var(--text)',marginBottom:6}}>{c.name}</div>
+                <div style={{fontSize:13,color:'var(--text3)',lineHeight:1.6,marginBottom:16}}>{c.desc}</div>
+                <Link to="/auth" style={{textDecoration:'none',fontSize:13,color:'var(--blue)',fontWeight:600}}>View {c.name} →</Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={{padding:'56px 32px',background:'#fff',borderTop:'1px solid var(--border)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:48}}>
+            <div className="section-tag">Why Haseeb Shop</div>
+            <h2 style={{fontSize:28,fontWeight:700,color:'var(--text)',letterSpacing:'-0.02em',marginBottom:10}}>Everything you need</h2>
+            <p style={{color:'var(--text3)',fontSize:15,maxWidth:460,margin:'0 auto'}}>Built with production-grade tools for a real-world shopping experience.</p>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:18}}>
+            {features.map((f,i)=>(
+              <div key={i} className="card" style={{padding:'22px 20px'}}>
+                <div style={{width:44,height:44,borderRadius:12,background:'var(--blue-pale)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,marginBottom:14}}>{f.icon}</div>
+                <div style={{fontSize:15,fontWeight:700,color:'var(--text)',marginBottom:7}}>{f.title}</div>
+                <div style={{fontSize:13,color:'var(--text3)',lineHeight:1.65}}>{f.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{padding:'64px 32px',background:'linear-gradient(135deg,#1a1a2e,#0f3460)',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px)',backgroundSize:'28px 28px'}} />
+        <div style={{maxWidth:600,margin:'0 auto',textAlign:'center',position:'relative',zIndex:1}}>
+          <h2 style={{fontFamily:'var(--font-display)',fontSize:36,fontWeight:400,color:'#fff',marginBottom:14,letterSpacing:'-0.01em'}}>
+            Experience <span style={{fontStyle:'italic',color:'#60a5fa'}}>Streamlined</span> Shopping
+          </h2>
+          <p style={{color:'rgba(255,255,255,0.55)',fontSize:15,marginBottom:32}}>Join Haseeb Shop and discover a better way to browse and manage products.</p>
+          <div style={{display:'flex',gap:14,justifyContent:'center'}}>
+            <Link to="/auth"><button style={{background:'#fff',color:'var(--blue)',border:'none',padding:'13px 32px',borderRadius:8,fontSize:15,fontWeight:700,cursor:'pointer',boxShadow:'0 4px 20px rgba(0,0,0,0.3)'}}>Shop Now</button></Link>
+            <Link to="/auth"><button style={{background:'transparent',color:'#fff',border:'1px solid rgba(255,255,255,0.3)',padding:'13px 32px',borderRadius:8,fontSize:15,fontWeight:500,cursor:'pointer',backdropFilter:'blur(10px)'}}>Learn More</button></Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom strip */}
+      <div style={{background:'#fff',borderTop:'1px solid var(--border)',padding:'20px 32px'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:12}}>
+          <div style={{display:'flex',gap:32}}>
+            {[['📦','Free Delivery'],['🏪','Self Pickup'],['✅','Warranty']].map(([icon,label])=>(
+              <span key={label} style={{fontSize:13,color:'var(--text3)',display:'flex',alignItems:'center',gap:7,fontWeight:500}}>{icon} {label}</span>
+            ))}
+          </div>
+          <p style={{fontSize:12,color:'var(--text4)'}}>Haseeb Shop © 2024 · React · Node.js · MongoDB</p>
         </div>
       </div>
     </div>

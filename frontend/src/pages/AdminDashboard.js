@@ -4,22 +4,9 @@ import { Link } from 'react-router-dom';
 import { productAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
-const StatCard = ({ icon, label, value, grad, sub }) => (
-  <div className="card" style={{ padding:'22px 24px' }}>
-    <div style={{ display:'flex', alignItems:'center', gap:14 }}>
-      <div style={{ width:48, height:48, borderRadius:14, background:grad, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, boxShadow:'0 4px 14px rgba(14,165,233,0.2)', flexShrink:0 }}>{icon}</div>
-      <div>
-        <p style={{ fontSize:12, color:'var(--text4)', fontWeight:600, marginBottom:4 }}>{label}</p>
-        <p style={{ fontSize:28, fontWeight:800, color:'var(--text)', lineHeight:1, fontFamily:'var(--font-display)' }}>{value}</p>
-        {sub && <p style={{ fontSize:11, color:'var(--text3)', marginTop:3 }}>{sub}</p>}
-      </div>
-    </div>
-  </div>
-);
-
 const AdminDashboard = () => {
   const { user } = useAuth();
-  useSEO({ title:'Admin Dashboard', description:'Admin dashboard for Haseeb Shop — manage products, view stats, and control inventory.' });
+  useSEO({ title:'Dashboard', description:'Admin dashboard for Haseeb Shop.' });
   const [stats, setStats] = useState({ total:0, avgPrice:0, withImages:0, freeDelivery:0 });
   const [recentProducts, setRecentProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,55 +17,64 @@ const AdminDashboard = () => {
         const res = await productAPI.getAll({ limit:50, page:1 });
         const products = res.data.products;
         const total = res.data.total;
-        const avgPrice = products.length ? (products.reduce((s,p) => s+p.price, 0) / products.length) : 0;
-        const withImages = products.filter(p => p.image).length;
-        const freeDelivery = products.filter(p => p.freeDelivery).length;
-        setStats({ total, avgPrice: avgPrice.toFixed(2), withImages, freeDelivery });
-        setRecentProducts(products.slice(0, 8));
+        const avgPrice = products.length ? products.reduce((s,p)=>s+p.price,0)/products.length : 0;
+        setStats({ total, avgPrice:avgPrice.toFixed(2), withImages:products.filter(p=>p.image).length, freeDelivery:products.filter(p=>p.freeDelivery).length });
+        setRecentProducts(products.slice(0,8));
       } catch {} finally { setLoading(false); }
     };
     load();
   }, []);
 
-  const STAT_CARDS = [
-    { icon:'📦', label:'Total Products', value: loading ? '...' : stats.total, grad:'linear-gradient(135deg,#0ea5e9,#6366f1)', sub:'Across all shops' },
-    { icon:'💰', label:'Avg. Price', value: loading ? '...' : `$${stats.avgPrice}`, grad:'linear-gradient(135deg,#6366f1,#8b5cf6)', sub:'USD average' },
-    { icon:'📸', label:'With Images', value: loading ? '...' : stats.withImages, grad:'linear-gradient(135deg,#14b8a6,#0ea5e9)', sub:'Products with photos' },
-    { icon:'🚚', label:'Free Delivery', value: loading ? '...' : stats.freeDelivery, grad:'linear-gradient(135deg,#f59e0b,#ef4444)', sub:'Offer free shipping' },
+  const STATS = [
+    { icon:'📦', label:'Total Products', value:loading?'...':stats.total, sub:'Across all shops', color:'#2563ff', bg:'#eff4ff' },
+    { icon:'💰', label:'Avg. Price', value:loading?'...':'$'+stats.avgPrice, sub:'USD average', color:'#7c3aed', bg:'#faf5ff' },
+    { icon:'📸', label:'With Images', value:loading?'...':stats.withImages, sub:'Products with photos', color:'#0891b2', bg:'#ecfeff' },
+    { icon:'🚚', label:'Free Delivery', value:loading?'...':stats.freeDelivery, sub:'Offer free shipping', color:'#16a34a', bg:'#f0fdf4' },
   ];
 
   return (
-    <div style={{ minHeight:'100vh', padding:'36px 24px' }}>
-      <div style={{ maxWidth:1280, margin:'0 auto' }}>
-
-        <div style={{ marginBottom:36, display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
+    <div style={{ minHeight:'100vh', padding:'36px 28px', background:'#f5f5fa' }}>
+      <div style={{ maxWidth:1200, margin:'0 auto' }}>
+        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:32, flexWrap:'wrap', gap:14 }}>
           <div>
-            <h1 style={{ fontSize:34, fontWeight:800, color:'var(--text)', marginBottom:6, letterSpacing:'-0.02em' }}>Admin Dashboard</h1>
-            <p style={{ color:'var(--text3)', fontSize:15 }}>Welcome back, <span style={{ background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', fontWeight:700 }}>{user?.name}</span> 👋</p>
+            <div className="section-tag">Admin</div>
+            <h1 style={{ fontSize:30, fontWeight:700, color:'var(--text)', letterSpacing:'-0.02em' }}>Dashboard</h1>
+            <p style={{ color:'var(--text3)', marginTop:4, fontSize:14 }}>Welcome back, <span style={{ color:'var(--blue)', fontWeight:700 }}>{user?.name}</span> 👋</p>
           </div>
-          <Link to="/admin/add-product">
-            <button className="btn-primary">+ Add Product</button>
-          </Link>
+          <Link to="/admin/add-product"><button className="btn-primary">+ Add Product</button></Link>
         </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:16, marginBottom:36 }}>
-          {STAT_CARDS.map(s => <StatCard key={s.label} {...s} />)}
+        {/* Stats */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:14, marginBottom:32 }}>
+          {STATS.map(s => (
+            <div key={s.label} style={{ background:'#fff', borderRadius:14, padding:'20px 22px', border:'1px solid var(--border)', boxShadow:'var(--shadow-xs)', display:'flex', gap:14, alignItems:'center' }}>
+              <div style={{ width:46, height:46, borderRadius:12, background:s.bg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>{s.icon}</div>
+              <div>
+                <p style={{ fontSize:11, color:'var(--text4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:4 }}>{s.label}</p>
+                <p style={{ fontSize:26, fontWeight:800, color:'var(--text)', lineHeight:1 }}>{s.value}</p>
+                <p style={{ fontSize:11, color:'var(--text4)', marginTop:3 }}>{s.sub}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div style={{ marginBottom:36 }}>
-          <h2 style={{ fontSize:20, fontWeight:700, color:'var(--text)', marginBottom:16 }}>Quick Actions</h2>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:14 }}>
+        {/* Quick Actions */}
+        <div style={{ marginBottom:32 }}>
+          <h2 style={{ fontSize:18, fontWeight:700, color:'var(--text)', marginBottom:14 }}>Quick Actions</h2>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:12 }}>
             {[
-              { icon:'+', title:'Add New Product', desc:'Create a new product listing', to:'/admin/add-product', grad:'linear-gradient(135deg,#0ea5e9,#6366f1)' },
-              { icon:'📋', title:'Manage Products', desc:'Edit or delete existing products', to:'/products', grad:'linear-gradient(135deg,#6366f1,#8b5cf6)' },
-              { icon:'🌐', title:'View as Customer', desc:'See the customer-facing store', to:'/products', grad:'linear-gradient(135deg,#14b8a6,#0ea5e9)' },
-            ].map(action => (
-              <Link key={action.title} to={action.to} style={{ textDecoration:'none' }}>
-                <div className="card" style={{ padding:20, cursor:'pointer', display:'flex', gap:14, alignItems:'center' }}>
-                  <div style={{ width:46, height:46, borderRadius:13, background:action.grad, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0, boxShadow:'0 4px 12px rgba(14,165,233,0.25)' }} dangerouslySetInnerHTML={{ __html: action.icon }} />
+              { icon:'➕', title:'Add New Product', desc:'Create a new product listing', to:'/admin/add-product', color:'#2563ff', bg:'#eff4ff' },
+              { icon:'📋', title:'Manage Products', desc:'Edit or delete existing products', to:'/products', color:'#7c3aed', bg:'#faf5ff' },
+              { icon:'🌐', title:'View as Customer', desc:'See the customer-facing store', to:'/products', color:'#0891b2', bg:'#ecfeff' },
+            ].map(a => (
+              <Link key={a.title} to={a.to} style={{ textDecoration:'none' }}>
+                <div style={{ background:'#fff', borderRadius:14, padding:18, cursor:'pointer', display:'flex', gap:14, alignItems:'center', border:'1px solid var(--border)', boxShadow:'var(--shadow-xs)', transition:'all 0.2s' }}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor=a.color;e.currentTarget.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border)';e.currentTarget.style.boxShadow='var(--shadow-xs)'}}>
+                  <div style={{ width:42, height:42, borderRadius:12, background:a.bg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>{a.icon}</div>
                   <div>
-                    <p style={{ fontSize:14, fontWeight:700, color:'var(--text)', marginBottom:3 }}>{action.title}</p>
-                    <p style={{ fontSize:12, color:'var(--text3)' }}>{action.desc}</p>
+                    <p style={{ fontSize:14, fontWeight:700, color:'var(--text)', marginBottom:2 }}>{a.title}</p>
+                    <p style={{ fontSize:12, color:'var(--text3)' }}>{a.desc}</p>
                   </div>
                 </div>
               </Link>
@@ -86,43 +82,38 @@ const AdminDashboard = () => {
           </div>
         </div>
 
+        {/* Recent Products Table */}
         <div>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
-            <h2 style={{ fontSize:20, fontWeight:700, color:'var(--text)' }}>Recent Products</h2>
-            <Link to="/products" style={{ textDecoration:'none', fontSize:13, color:'var(--p1)', fontWeight:600 }}>View all →</Link>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+            <h2 style={{ fontSize:18, fontWeight:700, color:'var(--text)' }}>Recent Products</h2>
+            <Link to="/products" style={{ textDecoration:'none', fontSize:13, color:'var(--blue)', fontWeight:600 }}>View all →</Link>
           </div>
-          <div style={{ background:'rgba(255,255,255,0.7)', borderRadius:'var(--radius-lg)', border:'1px solid rgba(255,255,255,0.9)', overflow:'hidden', backdropFilter:'blur(20px)', boxShadow:'var(--shadow-sm)' }}>
-            {loading ? (
-              <div style={{ textAlign:'center', padding:40, color:'var(--text3)' }}>Loading...</div>
-            ) : recentProducts.length === 0 ? (
-              <div style={{ padding:40, textAlign:'center', color:'var(--text3)' }}>
-                No products yet. <Link to="/admin/add-product" style={{ color:'var(--p1)', fontWeight:600 }}>Add one!</Link>
-              </div>
-            ) : (
+          <div style={{ background:'#fff', borderRadius:14, border:'1px solid var(--border)', overflow:'hidden', boxShadow:'var(--shadow-xs)' }}>
+            {loading ? <div style={{ textAlign:'center', padding:40, color:'var(--text3)' }}>Loading...</div>
+            : recentProducts.length === 0 ? <div style={{ padding:40, textAlign:'center', color:'var(--text3)' }}>No products yet. <Link to="/admin/add-product" style={{ color:'var(--blue)', fontWeight:600 }}>Add one!</Link></div>
+            : (
               <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
                 <thead>
-                  <tr style={{ borderBottom:'1px solid rgba(14,165,233,0.1)', background:'rgba(14,165,233,0.03)' }}>
+                  <tr style={{ borderBottom:'1px solid var(--border)', background:'var(--border2)' }}>
                     {['Product','Shop','Price','Rating','Stock','Delivery'].map(h => (
-                      <th key={h} style={{ padding:'14px 16px', textAlign:'left', fontSize:12, fontWeight:600, color:'var(--text4)' }}>{h}</th>
+                      <th key={h} style={{ padding:'12px 16px', textAlign:'left', fontSize:11, fontWeight:700, color:'var(--text3)', textTransform:'uppercase', letterSpacing:'0.06em' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {recentProducts.map((p, i) => (
-                    <tr key={p._id} style={{ borderBottom: i < recentProducts.length-1 ? '1px solid rgba(14,165,233,0.06)' : 'none', transition:'background 0.15s' }}
-                      onMouseEnter={e => e.currentTarget.style.background='rgba(14,165,233,0.03)'}
-                      onMouseLeave={e => e.currentTarget.style.background='transparent'}>
-                      <td style={{ padding:'14px 16px' }}>
+                  {recentProducts.map((p,i) => (
+                    <tr key={p._id} style={{ borderBottom:i<recentProducts.length-1?'1px solid var(--border2)':'none', transition:'background 0.15s' }}
+                      onMouseEnter={e=>e.currentTarget.style.background='var(--border2)'}
+                      onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                      <td style={{ padding:'13px 16px' }}>
                         <div style={{ fontWeight:700, color:'var(--text)' }}>{p.productName}</div>
                         <div style={{ fontSize:11, color:'var(--text4)' }}>{p.name}</div>
                       </td>
-                      <td style={{ padding:'14px 16px', color:'var(--text3)' }}>{p.shopName}</td>
-                      <td style={{ padding:'14px 16px', fontWeight:700, background:'linear-gradient(135deg,#0ea5e9,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>${p.price}</td>
-                      <td style={{ padding:'14px 16px', color:'#f59e0b' }}>{'★'.repeat(p.rating)}</td>
-                      <td style={{ padding:'14px 16px', color:'var(--text3)' }}>{p.stock}</td>
-                      <td style={{ padding:'14px 16px' }}>
-                        <span className={`badge ${p.freeDelivery ? 'badge-teal' : 'badge-red'}`}>{p.freeDelivery ? 'Free' : 'Paid'}</span>
-                      </td>
+                      <td style={{ padding:'13px 16px', color:'var(--text3)' }}>{p.shopName}</td>
+                      <td style={{ padding:'13px 16px', fontWeight:700, color:'var(--blue)' }}>${p.price}</td>
+                      <td style={{ padding:'13px 16px', color:'#f59e0b' }}>{'★'.repeat(p.rating)}</td>
+                      <td style={{ padding:'13px 16px', color:'var(--text3)' }}>{p.stock}</td>
+                      <td style={{ padding:'13px 16px' }}><span className={`badge ${p.freeDelivery?'badge-green':'badge-red'}`}>{p.freeDelivery?'Free':'Paid'}</span></td>
                     </tr>
                   ))}
                 </tbody>

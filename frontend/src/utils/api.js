@@ -23,10 +23,10 @@ export const productAPI = {
   update: (id, data) => api.put(`/products/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }),
   delete: (id) => api.delete(`/products/${id}`),
 };
-export const CURRENCY_SYMBOLS = { USD:'$', JPY:'¥', CNY:'¥', EUR:'€', GBP:'£', PKR:'₨' };
+export const CURRENCY_SYMBOLS = { USD:'$', JPY:'\u00a5', CNY:'\u00a5', EUR:'\u20ac', GBP:'\u00a3', PKR:'Rs' };
 export const formatPrice = (price, currencyCode = 'USD') => {
   const symbol = CURRENCY_SYMBOLS[currencyCode] || '$';
-  if (currencyCode === 'JPY' || currencyCode === 'CNY' || currencyCode === 'PKR') return `${symbol} ${Math.round(price).toLocaleString()}`;
+  if (['JPY','CNY','PKR'].includes(currencyCode)) return `${symbol} ${Math.round(price).toLocaleString()}`;
   return `${symbol}${Number(price).toFixed(2)}`;
 };
 export const getImageUrl = (image) => {

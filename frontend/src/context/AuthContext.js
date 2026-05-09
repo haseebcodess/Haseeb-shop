@@ -16,17 +16,17 @@ export const AuthProvider = ({ children }) => {
   };
   const login = async (email, password) => {
     const res = await axios.post(`${API}/auth/login`, { email, password });
-    const { token: newToken, user: newUser } = res.data;
-    localStorage.setItem('shopflow_token', newToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-    setToken(newToken); setUser(newUser); return newUser;
+    const { token: t, user: u } = res.data;
+    localStorage.setItem('shopflow_token', t);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;
+    setToken(t); setUser(u); return u;
   };
   const signup = async (name, email, password, role) => {
     const res = await axios.post(`${API}/auth/signup`, { name, email, password, role });
-    const { token: newToken, user: newUser } = res.data;
-    localStorage.setItem('shopflow_token', newToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-    setToken(newToken); setUser(newUser); return newUser;
+    const { token: t, user: u } = res.data;
+    localStorage.setItem('shopflow_token', t);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;
+    setToken(t); setUser(u); return u;
   };
   const logout = useCallback(() => {
     localStorage.removeItem('shopflow_token');
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null); setUser(null);
   }, []);
   return (
-    <AuthContext.Provider value={{ user, token, loading, isAdmin: user?.role === 'admin', isAuthenticated: !!user, login, signup, logout, fetchUser }}>
+    <AuthContext.Provider value={{ user, token, loading, isAdmin: user?.role==='admin', isAuthenticated: !!user, login, signup, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );
